@@ -1,8 +1,0 @@
-[build]
-  command = "npm run build && npm run preview"
-  publish = "dist"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
