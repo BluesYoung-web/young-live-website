@@ -1,7 +1,7 @@
 /*
  * @Author: zhangyang
  * @Date: 2023-05-25 19:45:20
- * @LastEditTime: 2023-10-03 08:58:50
+ * @LastEditTime: 2023-10-03 13:48:39
  * @Description:
  */
 import { resolve } from 'node:path'
@@ -12,6 +12,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       viewport: 'width=device-width,initial-scale=1.0,user-scalable=no,shrink-to-fit=no',
+      title: '电视直播',
       meta: [
         { name: 'theme-color', content: '#ffffff' },
         { name: 'screen-orientation', content: 'portrait' },

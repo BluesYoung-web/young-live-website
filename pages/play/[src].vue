@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangyang
  * @Date: 2023-10-03 10:04:36
- * @LastEditTime: 2023-10-03 10:51:56
+ * @LastEditTime: 2023-10-03 13:49:00
  * @Description:
 -->
 <script setup lang="ts">
@@ -33,5 +33,5 @@ watch(() => route.params, init, { immediate: true })
 </script>
 
 <template>
-  <div id="video" class="" />
+  <div id="video" class="w-100vw h-100vh" />
 </template>
