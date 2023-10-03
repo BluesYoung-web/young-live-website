@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangyang
  * @Date: 2023-07-21 09:27:14
- * @LastEditTime: 2023-10-03 10:15:37
+ * @LastEditTime: 2023-10-03 14:33:15
  * @Description:
 -->
 <script setup lang="ts">
@@ -23,6 +23,7 @@ const TVList = useLocalStorage('TVList', new Set<{
   src: string
 }>())
 
+TVGroups.value.clear()
 for (const tv of validTVs) {
   const [str, src] = tv.split('\n')
   // 提取tvg-id的值
