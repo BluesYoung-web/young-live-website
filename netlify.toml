@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build && node ./boot.mjs"
+  command = "npm run build && npm run preview"
   publish = "dist"
 
 [[redirects]]
