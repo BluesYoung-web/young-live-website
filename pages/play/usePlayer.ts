@@ -1,7 +1,7 @@
 /*
  * @Author: zhangyang
  * @Date: 2022-06-12 09:25:35
- * @LastEditTime: 2023-10-03 10:53:58
+ * @LastEditTime: 2023-10-03 15:22:21
  * @Description:
  */
 import Hls from 'hls.js'
@@ -86,7 +86,7 @@ export function usePlayer() {
   }
 
   const prev = () => {
-    if (curr.value.index === 1)
+    if (curr.value.index === 0)
       changeTv(data.length - 1)
     else
       changeTv(curr.value.index - 1)
