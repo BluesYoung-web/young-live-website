@@ -1,11 +1,11 @@
 <!--
  * @Author: zhangyang
  * @Date: 2023-07-21 09:27:14
- * @LastEditTime: 2023-10-03 14:33:15
+ * @LastEditTime: 2023-10-28 10:54:31
  * @Description:
 -->
 <script setup lang="ts">
-const m3u8Raw = await (await fetch('https://live.fanmingming.com/tv/m3u/global.m3u')).text()
+import m3u8Raw from '@/assets/global.m3u?raw'
 
 const validTVs = m3u8Raw.match(/(?<=#EXTINF:-1\s)(.*\n.*)/img)?.filter(tv => tv.includes('tvg-id')) ?? []
 
@@ -53,10 +53,11 @@ for (const tv of validTVs) {
     <ElCard :header="group" body-style="background: #999;">
       <div class="flex flex-wrap gap-32px">
         <div v-for="tv of tvs" :key="tv.tvgId" class="flex justify-center items-center cursor-pointer" :title="tv.tvgName" @click="navigateTo(`/play/${encodeURIComponent(tv.src)}`)">
-          <img v-if="tv.tvgLogo" class="w-120px" :src="tv.tvgLogo">
-          <div v-else>
-            {{ tv.tvgName }}
-          </div>
+          <ElAvatar class="!w-160px" shape="square">
+            <div class="text-2xl">
+              {{ tv.tvgName }}
+            </div>
+          </ElAvatar>
         </div>
       </div>
     </ElCard>
