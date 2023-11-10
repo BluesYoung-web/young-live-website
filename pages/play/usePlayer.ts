@@ -1,7 +1,7 @@
 /*
  * @Author: zhangyang
  * @Date: 2022-06-12 09:25:35
- * @LastEditTime: 2023-10-03 15:22:21
+ * @LastEditTime: 2023-11-10 19:24:39
  * @Description:
  */
 import Hls from 'hls.js'
@@ -66,16 +66,22 @@ export function usePlayer() {
     index: 0,
   })
 
-  hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-    hls.loadSource(`/api/proxy?url=${encodeURIComponent(curr.value.src)}`)
-  })
-
   const changeTv = (index: number) => {
     curr.value = {
       src: data[index].src,
       index,
     }
-    hls.loadSource(`/api/proxy?url=${encodeURIComponent(curr.value.src)}`)
+    $fetch('/api/proxy', {
+      params: {
+        url: curr.value.src,
+      },
+    }).then((res) => {
+      if (res) {
+        console.log('🚀 ~ file: usePlayer.ts:76 ~ hls.on ~ res:', res)
+
+        hls.loadSource(res)
+      }
+    })
   }
 
   const next = () => {
