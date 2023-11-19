@@ -1,7 +1,7 @@
 /*
  * @Author: zhangyang
  * @Date: 2022-06-12 09:25:35
- * @LastEditTime: 2023-11-10 19:24:39
+ * @LastEditTime: 2023-11-19 16:53:51
  * @Description:
  */
 import Hls from 'hls.js'
@@ -66,23 +66,43 @@ export function usePlayer() {
     index: 0,
   })
 
-  const changeTv = (index: number) => {
+  const changeTv = async (index: number) => {
     curr.value = {
       src: data[index].src,
       index,
     }
-    $fetch('/api/proxy', {
+
+    const url = `/api/proxy?url=${encodeURIComponent(curr.value.src)}`
+
+    $fetch('/api/location', {
       params: {
         url: curr.value.src,
       },
     }).then((res) => {
       if (res) {
-        console.log('🚀 ~ file: usePlayer.ts:76 ~ hls.on ~ res:', res)
+        console.log('🚀 ~ 原始地址:', curr.value.src)
+        console.log('🚀 ~ 服务端重定向得到最终地址:', res)
 
-        hls.loadSource(res)
+        if (res === curr.value.src) {
+          console.log('没有防盗链，代理跨域播放')
+          hls.loadSource(url)
+        }
+        else {
+          console.log('有防盗链，重定向后直接播放')
+          hls.loadSource(res)
+        }
       }
+      else {
+        throw res
+      }
+    }).catch((err) => {
+      console.error('🚀 ~ 重定向失败:', err)
     })
   }
+
+  hls.on(Hls.Events.ERROR, (event, data) => {
+    console.error('🚀 ~ hls error:', event, data)
+  })
 
   const next = () => {
     if (curr.value.index < data.length - 1)
