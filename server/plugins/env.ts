@@ -1,12 +1,13 @@
 /*
  * @Author: zhangyang
  * @Date: 2022-12-30 17:19:42
- * @LastEditTime: 2023-09-16 16:27:56
+ * @LastEditTime: 2023-11-22 09:22:47
  * @Description:
  */
 import { resolve } from 'node:path'
 import { loadConfig } from 'c12'
 import { useYoungLogger } from '@bluesyoung/logger'
+import { version } from '../../package.json'
 
 export default defineNitroPlugin(async (nitroApp) => {
   const env = (process.env.DEPLOY_ENV as 'dev' | 'test' | 'online') || 'dev'
@@ -15,15 +16,7 @@ export default defineNitroPlugin(async (nitroApp) => {
     cwd: resolve(process.cwd(), 'config'),
     defaultConfig: {
       // 此处可以放置通用的环境变量
-      // 由于频繁修改 package.json 会浪费 docker 性能，故将版本信息放于此处
-      // 优先读取环境变量中的版本信息(自己打的 Tag)
-      NUXT_PUBLIC_CURRENT_VERSION: process.env.PROJECT_VERSION || 'v0.0.1',
-
-      NUXT_PUBLIC_TITLE: 'XXX-后台管理系统',
-      NUXT_PUBLIC_SUB_TITLE: '做XXX我们是认真的！',
-      NUXT_PUBLIC_SLOGAN: 'XXXXX, XXXXX',
-      NUXT_PUBLIC_LOGIN_BG: '/bg.webp',
-      NUXT_PUBLIC_LOGIN_LOGO: '/logo.svg',
+      NUXT_PUBLIC_CURRENT_VERSION: version,
     },
   })
 
@@ -48,13 +41,18 @@ export default defineNitroPlugin(async (nitroApp) => {
       delete config[key]
   }
 
+  // 仅打包之后格式化日志
+  if (process.env.NODE_ENV !== 'development')
+    useYoungLogger()
+
   console.log('------------------------读取配置文件------------------------')
   console.log(config)
   console.log('-------------------------------------------------------------')
 
-  // 仅打包之后格式化日志
-  if (process.env.NODE_ENV !== 'development')
-    useYoungLogger()
+  nitroApp.hooks.hook('request', (event) => {
+    const headers = event.node.req.headers
+    console.log('ua', headers['user-agent'], 'x-forwarded-for', headers['x-forwarded-for'], 'x-real-ip', headers['x-real-ip'])
+  })
 
   nitroApp.hooks.hook('render:html', (html, { event }) => {
     // 直接注入环境变量到前端
@@ -63,25 +61,18 @@ export default defineNitroPlugin(async (nitroApp) => {
     <script>window.__YOUNG_ENV__=${JSON.stringify(config)}</script>
     <!-- 更新检测，每分钟一次 -->
     <script>
-    setInterval(() => {
+    const YOUNG_UPDATE_TIMER = setInterval(() => {
       fetch('/get/env')
         .then((res) => res.json())
         .then(({ NUXT_PUBLIC_CURRENT_VERSION }) => {
           if (NUXT_PUBLIC_CURRENT_VERSION !== window.__YOUNG_ENV__.NUXT_PUBLIC_CURRENT_VERSION) {
-            alert('版本已更新，请重新加载页面！');
+            clearInterval(YOUNG_UPDATE_TIMER);
+            alert('版本已更新，点击重新加载页面！');
             window.location.reload();
           }
         });
     }, 6e4);
     </script>
     `)
-
-    // 移动端调试控制台，需要使用就放开下面的注释
-    // if (process.env.NODE_ENV === 'development' || process.env.NUXT_PUBLIC_ENABLE_CONSOLE) {
-    //   html.bodyAppend.push(`
-    //   <script src="//cdn.bootcdn.net/ajax/libs/eruda/2.3.3/eruda.js"></script>
-    //   <script>eruda.init();</script>
-    //   `);
-    // }
   })
 })

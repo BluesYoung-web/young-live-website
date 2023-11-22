@@ -1,7 +1,7 @@
 /*
  * @Author: zhangyang
  * @Date: 2023-05-25 19:45:20
- * @LastEditTime: 2023-10-03 13:48:39
+ * @LastEditTime: 2023-11-22 09:37:22
  * @Description:
  */
 import { resolve } from 'node:path'
@@ -45,6 +45,12 @@ export default defineNuxtConfig({
     },
   },
 
+  unocss: {
+    // 默认的 @unocss/reset/tailwind.css 会造成 element 样式异常
+    // 手动注入 @unocss/reset/tailwind-compat.css
+    preflight: false,
+  },
+
   lazyLoad: {
     audio: false,
     // 默认使用原生的 loading="lazy"
@@ -61,17 +67,11 @@ export default defineNuxtConfig({
     },
   },
 
-  // 开发调试工具，按需启用
-  // devtools: {
-  //   enabled: true,
-  // },
-
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
     '@element-plus/nuxt',
     '@pinia/nuxt',
-    '@vant/nuxt',
     'nuxt-lazy-load',
   ],
 
@@ -82,16 +82,9 @@ export default defineNuxtConfig({
   vite: {
     build: {
       // 兼容钉钉浏览器
-      target: 'es2015',
+      target: ['chrome61'],
+      cssTarget: ['chrome61'],
       sourcemap: false,
-    },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          javascriptEnabled: true,
-          additionalData: '@import "~/styles/variable.scss";',
-        },
-      },
     },
   },
 })
