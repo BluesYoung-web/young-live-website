@@ -1,0 +1,44 @@
+name: 每天凌晨 3 点更新 m3u8
+
+on:
+  schedule:
+    - cron: '0 19 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: 更新仓库
+        run: |
+          git fetch --all
+          git reset --hard origin/master
+
+      - name: 下载文件
+        run: |
+          wget -q --show-progress -O new_global.m3u https://live.fanmingming.com/tv/m3u/global.m3u
+
+      - name: 检查文件是否有变化
+        id: check_changes
+        run: |
+          diff_result=$(diff -q assets/global.m3u new_global.m3u)
+          echo "::set-output name=changes::${diff_result}"
+
+      - name: 替换文件并提交更改
+        run: |
+          changes=${{ steps.check_changes.outputs.changes }}
+          if [[ "$changes" ]]; then
+            mv new_global.m3u assets/global.m3u
+            git config user.name BluesYoung-web
+            git config user.email bluesyoung_web@163.com
+            git add assets/global.m3u
+            git commit -m "chore: 🏡 更新 global.m3u"
+            git push origin HEAD
+          else
+            echo "未检测到变化。跳过提交。"
+          fi
