@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangyang
  * @Date: 2023-07-21 09:27:14
- * @LastEditTime: 2023-11-10 19:41:09
+ * @LastEditTime: 2023-11-22 09:49:06
  * @Description:
 -->
 <script setup lang="ts">
@@ -9,9 +9,12 @@ import m3u8Raw from '@/assets/global.m3u?raw'
 
 const rawM3u8 = ref(m3u8Raw)
 
+const showLogo = ref(false)
+
 fetch('https://live.fanmingming.com/tv/m3u/global.m3u').then(r => r.text()).then((raw) => {
   console.log('远程优先')
   rawM3u8.value = raw
+  showLogo.value = true
 }).catch(() => {
   console.log('远程获取失败，使用本地')
   rawM3u8.value = m3u8Raw
@@ -66,7 +69,8 @@ process.client && watch(() => validTVs.value, (tvs) => {
     <ElCard :header="group" body-style="background: #999;">
       <div class="flex flex-wrap gap-32px">
         <div v-for="tv of tvs" :key="tv.tvgId" class="flex justify-center items-center cursor-pointer" :title="tv.tvgName" @click="navigateTo(`/play/${encodeURIComponent(tv.src)}`)">
-          <ElAvatar class="!w-160px" shape="square">
+          <img v-if="showLogo" class="w-120px" :src="tv.tvgLogo">
+          <ElAvatar v-else class="!w-160px" shape="square">
             <div class="text-2xl">
               {{ tv.tvgName }}
             </div>
