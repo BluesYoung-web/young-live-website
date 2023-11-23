@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v2.0.0
+
+[compare changes](https://gitee.com/BluesYoung-web/young-live-website/compare/v1.0.0...v2.0.0)
+
+### 🚀 Enhancements
+
+- ⚠️  🚀 广电出手，使用官方直播 (a67973b)
+
+### 🤖 CI
+
+- 🤖 update ci (14f2a61)
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  🚀 广电出手，使用官方直播 (a67973b)
+
+### ❤️ Contributors
+
+- 张扬 <bluesyoung_web@163.com>
+
 ## v1.0.0
 
 
