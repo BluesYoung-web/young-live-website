@@ -27,8 +27,11 @@ jobs:
       - name: 检查文件是否有变化
         id: check_changes
         run: |
-          diff_result=$(diff -q assets/global.m3u new_global.m3u)
-          echo "::set-output name=changes::${diff_result}"
+          if diff -q assets/global.m3u new_global.m3u >/dev/null; then
+            echo "::set-output name=changes::false"
+          else
+            echo "::set-output name=changes::true"
+          fi
 
       - name: 替换文件并提交更改
         run: |
