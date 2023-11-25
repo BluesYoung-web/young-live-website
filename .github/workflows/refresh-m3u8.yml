@@ -28,9 +28,9 @@ jobs:
         id: check_changes
         run: |
           if diff -q assets/global.m3u new_global.m3u >/dev/null; then
-            echo "::set-output name=changes::false"
+            echo "changes=false" >> "$GITHUB_OUTPUT"
           else
-            echo "::set-output name=changes::true"
+            echo "changes=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: 替换文件并提交更改
