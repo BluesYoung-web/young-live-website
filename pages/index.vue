@@ -1,13 +1,15 @@
 <!--
  * @Author: zhangyang
  * @Date: 2023-07-21 09:27:14
- * @LastEditTime: 2023-11-23 09:43:57
+ * @LastEditTime: 2023-11-26 20:12:42
  * @Description:
 -->
 <script setup lang="ts">
 import m3u8Raw from '@/assets/cctv.m3u?raw'
 
 const rawM3u8 = ref(m3u8Raw)
+
+const sipders = ref<TVItem[]>([])
 
 const showLogo = ref(false)
 
@@ -18,6 +20,20 @@ fetch('https://live.fanmingming.com/tv/CCTV1.png').then(() => {
   console.log('logo 获取失败')
 })
 
+$fetch('/get/iptv').then((data: Record<string, TVItem>) => {
+  TVList.value.clear()
+  sipders.value = Object.values(data)
+  sipders.value.forEach((v) => {
+    TVList.value.add({
+      ...v,
+      src: v.tvgSrc || '',
+    })
+  })
+  console.log('sipders', sipders.value)
+}).catch(() => {
+  console.log('spider fail')
+})
+
 const validTVs = computed(() => rawM3u8.value.match(/(?<=#EXTINF:-1\s)(.*\n.*)/img)?.filter(tv => tv.includes('tvg-id')) ?? [])
 
 interface TVItem {
@@ -25,6 +41,7 @@ interface TVItem {
   tvgName: string
   tvgLogo: string
   src: string
+  tvgSrc?: string
 }
 
 const TVGroups = useLocalStorage('TVGroups', new Map<string, TVItem[]>())
@@ -32,7 +49,6 @@ const TVGroups = useLocalStorage('TVGroups', new Map<string, TVItem[]>())
 const TVList = useLocalStorage('TVList', new Set<TVItem>())
 
 process.client && watch(() => validTVs.value, (tvs) => {
-  TVList.value.clear()
   TVGroups.value.clear()
   for (const tv of tvs) {
     const [str, src] = tv.split('\n')
@@ -48,8 +64,6 @@ process.client && watch(() => validTVs.value, (tvs) => {
     // 提取group-title的值
     const groupTitle = str.match(/group-title="(.*?)"/)?.[1] ?? '其他'
 
-    TVList.value.add({ tvgId, tvgName, tvgLogo, src })
-
     if (TVGroups.value.get(groupTitle))
       TVGroups.value.set(groupTitle, [...TVGroups.value.get(groupTitle)!, { tvgId, tvgName, tvgLogo, src }])
 
@@ -60,6 +74,10 @@ process.client && watch(() => validTVs.value, (tvs) => {
 
 function jumpCCTV(tv: TVItem) {
   window.open(`https://tv.cctv.com/live/${tv.tvgId.toLowerCase()}`)
+}
+
+function jumpTV(tv: TVItem) {
+  navigateTo(`/play/${encodeURIComponent(tv.tvgSrc || tv.src)}`)
 }
 </script>
 
@@ -78,5 +96,20 @@ function jumpCCTV(tv: TVItem) {
       </div>
     </ElCard>
     <br>
+  </div>
+
+  <div v-if="sipders.length">
+    <ElCard header="IPTV 视频源(不可靠)" body-style="background: #999;">
+      <div class="flex flex-wrap gap-32px">
+        <div v-for="tv of sipders" :key="`${tv.tvgId}iptv`" class="flex justify-center items-center cursor-pointer" :title="tv.tvgName" @click="jumpTV(tv)">
+          <img v-if="showLogo" class="w-120px" :src="tv.tvgLogo">
+          <ElAvatar v-else class="!w-160px" shape="square">
+            <div class="text-2xl">
+              {{ tv.tvgName }}
+            </div>
+          </ElAvatar>
+        </div>
+      </div>
+    </ElCard>
   </div>
 </template>
