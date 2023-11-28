@@ -20,29 +20,29 @@ jobs:
           git reset --hard origin/master
           echo "仅尝试 github actions 无实际作用"
 
-      - name: 下载文件
-        run: |
-          wget -q --show-progress -O new_global.m3u https://live.fanmingming.com/tv/m3u/global.m3u
+      # - name: 下载文件
+      #   run: |
+      #     wget -q --show-progress -O new_global.m3u https://live.fanmingming.com/tv/m3u/global.m3u
 
-      - name: 检查文件是否有变化
-        id: check_changes
-        run: |
-          if diff -q assets/global.m3u new_global.m3u >/dev/null; then
-            echo "changes=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changes=true" >> "$GITHUB_OUTPUT"
-          fi
+      # - name: 检查文件是否有变化
+      #   id: check_changes
+      #   run: |
+      #     if diff -q assets/global.m3u new_global.m3u >/dev/null; then
+      #       echo "changes=false" >> "$GITHUB_OUTPUT"
+      #     else
+      #       echo "changes=true" >> "$GITHUB_OUTPUT"
+      #     fi
 
-      - name: 替换文件并提交更改
-        run: |
-          changes=${{ steps.check_changes.outputs.changes }}
-          if [[ "$changes" ]]; then
-            mv new_global.m3u assets/global.m3u
-            git config user.name BluesYoung-web
-            git config user.email bluesyoung_web@163.com
-            git add assets/global.m3u
-            git commit -m "chore: 🏡 更新 global.m3u"
-            git push origin HEAD
-          else
-            echo "未检测到变化。跳过提交。"
-          fi
+      # - name: 替换文件并提交更改
+      #   run: |
+      #     changes=${{ steps.check_changes.outputs.changes }}
+      #     if [[ "$changes" ]]; then
+      #       mv new_global.m3u assets/global.m3u
+      #       git config user.name BluesYoung-web
+      #       git config user.email bluesyoung_web@163.com
+      #       git add assets/global.m3u
+      #       git commit -m "chore: 🏡 更新 global.m3u"
+      #       git push origin HEAD
+      #     else
+      #       echo "未检测到变化。跳过提交。"
+      #     fi
