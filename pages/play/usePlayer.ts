@@ -1,7 +1,7 @@
 /*
  * @Author: zhangyang
  * @Date: 2022-06-12 09:25:35
- * @LastEditTime: 2023-11-19 16:53:51
+ * @LastEditTime: 2023-11-28 09:37:23
  * @Description:
  */
 import Hls from 'hls.js'
@@ -71,9 +71,11 @@ export function usePlayer() {
       src: data[index].src,
       index,
     }
+    hls.loadSource(curr.value.src)
 
-    const url = `/api/proxy?url=${encodeURIComponent(curr.value.src)}`
+    // const url = `/api/proxy?url=${encodeURIComponent(curr.value.src)}`
 
+    /*
     $fetch('/api/location', {
       params: {
         url: curr.value.src,
@@ -98,6 +100,7 @@ export function usePlayer() {
     }).catch((err) => {
       console.error('🚀 ~ 重定向失败:', err)
     })
+    */
   }
 
   hls.on(Hls.Events.ERROR, (event, data) => {
