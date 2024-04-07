@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangyang
  * @Date: 2023-07-21 09:27:14
- * @LastEditTime: 2023-11-26 20:12:42
+ * @LastEditTime: 2024-04-07 09:04:48
  * @Description:
 -->
 <script setup lang="ts">
@@ -73,7 +73,10 @@ process.client && watch(() => validTVs.value, (tvs) => {
 }, { deep: true, immediate: true })
 
 function jumpCCTV(tv: TVItem) {
-  window.open(`https://tv.cctv.com/live/${tv.tvgId.toLowerCase()}`)
+  if (tv.tvgId.toLowerCase().includes('cctv'))
+    window.open(`https://tv.cctv.com/live/${tv.tvgId.toLowerCase()}`)
+  else
+    window.open(tv.src)
 }
 
 function jumpTV(tv: TVItem) {
