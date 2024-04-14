@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.1.1
+
+[compare changes](https://gitee.com/BluesYoung-web/young-live-website/compare/v2.1.0...v2.1.1)
+
+### 🏡 Chore
+
+- 🏡 屏蔽 spider (46d07ad)
+
+### ❤️ Contributors
+
+- BluesYoung-web <bluesyoung_web@163.com>
+
 ## v2.1.0
 
 [compare changes](https://gitee.com/BluesYoung-web/young-live-website/compare/v2.0.0...v2.1.0)
