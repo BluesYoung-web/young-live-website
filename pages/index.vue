@@ -1,7 +1,7 @@
 <!--
  * @Author: zhangyang
  * @Date: 2023-07-21 09:27:14
- * @LastEditTime: 2024-04-07 09:04:48
+ * @LastEditTime: 2024-04-14 19:39:10
  * @Description:
 -->
 <script setup lang="ts">
@@ -101,7 +101,7 @@ function jumpTV(tv: TVItem) {
     <br>
   </div>
 
-  <div v-if="sipders.length">
+  <!-- <div v-if="sipders.length">
     <ElCard header="IPTV 视频源(不可靠)" body-style="background: #999;">
       <div class="flex flex-wrap gap-32px">
         <div v-for="tv of sipders" :key="`${tv.tvgId}iptv`" class="flex justify-center items-center cursor-pointer" :title="tv.tvgName" @click="jumpTV(tv)">
@@ -114,5 +114,5 @@ function jumpTV(tv: TVItem) {
         </div>
       </div>
     </ElCard>
-  </div>
+  </div> -->
 </template>
