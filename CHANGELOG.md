@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.1.2
+
+[compare changes](https://gitee.com/BluesYoung-web/young-live-website/compare/v2.1.1...v2.1.2)
+
+### 🩹 Fixes
+
+- 🩹 change yangshipin address hash -> history (1aba0df)
+
+### ❤️ Contributors
+
+- BluesYoung-web <bluesyoung_web@163.com>
+
 ## v2.1.1
 
 [compare changes](https://gitee.com/BluesYoung-web/young-live-website/compare/v2.1.0...v2.1.1)
