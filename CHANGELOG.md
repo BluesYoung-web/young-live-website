@@ -1,6 +1,40 @@
 # Changelog
 
 
+## v2.0.1
+
+[compare changes](https://gitee.com/BluesYoung-web/young-live-website/compare/v2.0.0...v2.0.1)
+
+### 🚀 Enhancements
+
+- 🚀 test spider (e987cce)
+- 🚀 调整播放策略 (38035b4)
+- 🚀 添加央视频-卫视直播源 (ff6ebf6)
+- 🚀 add demo api (d5b083b)
+
+### 🩹 Fixes
+
+- 🩹 change yangshipin address hash -> history (1aba0df)
+
+### 🏡 Chore
+
+- 🏡 更新 global.m3u (fcee5ac)
+- **release:** V2.1.0 (554d170)
+- 🏡 屏蔽 spider (46d07ad)
+- **release:** V2.1.1 (88eaab9)
+- **release:** V2.1.2 (70b3b8d)
+
+### 🤖 CI
+
+- 🤖 try to fix ci (4ad813c)
+- 🤖 update ci (4c24afd)
+- 🤖 调整 actions (ab0c172)
+
+### ❤️ Contributors
+
+- 张扬 <bluesyoung_web@163.com>
+- BluesYoung-web <bluesyoung_web@163.com>
+
 ## v2.1.2
 
 [compare changes](https://gitee.com/BluesYoung-web/young-live-website/compare/v2.1.1...v2.1.2)
