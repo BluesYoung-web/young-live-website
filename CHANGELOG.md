@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.0.3
+
+[compare changes](https://gitee.com/BluesYoung-web/young-live-website/compare/v2.0.2...v2.0.3)
+
+### 🩹 Fixes
+
+- 🩹 try fix build error (6bd39d5)
+
+### ❤️ Contributors
+
+- 张扬 <bluesyoung_web@163.com>
+
 ## v2.0.2
 
 [compare changes](https://gitee.com/BluesYoung-web/young-live-website/compare/v2.0.1...v2.0.2)
