@@ -19,6 +19,7 @@
     "@bluesyoung/ui-vue3-element-plus": "0.13.0",
     "@bluesyoung/utils": "0.2.1",
     "@nplayer/vue": "^1.0.12",
+    "@oxc-parser/binding-linux-x64-gnu": "^0.78.0",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.12",
     "c12": "^1.4.2",
